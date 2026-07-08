@@ -1,0 +1,49 @@
+CREATE TABLE pending_orders (
+    id TEXT NOT NULL PRIMARY KEY,
+    created_at INTEGER NOT NULL,
+    synced_at INTEGER,
+    subtotal_cents INTEGER NOT NULL,
+    tax_cents INTEGER NOT NULL,
+    discount_cents INTEGER NOT NULL,
+    total_cents INTEGER NOT NULL
+);
+
+CREATE TABLE order_lines (
+    order_id TEXT NOT NULL,
+    product_id TEXT NOT NULL,
+    product_name TEXT NOT NULL,
+    unit_price_cents INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    taxable INTEGER AS kotlin.Boolean NOT NULL,
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES pending_orders(id)
+);
+
+insertOrder:
+INSERT INTO pending_orders(id, created_at, synced_at, subtotal_cents, tax_cents, discount_cents, total_cents)
+VALUES (?, ?, NULL, ?, ?, ?, ?);
+
+insertOrderLine:
+INSERT INTO order_lines(order_id, product_id, product_name, unit_price_cents, quantity, taxable)
+VALUES (?, ?, ?, ?, ?, ?);
+
+selectOrdersWithLines:
+SELECT o.id, o.created_at, o.synced_at, o.subtotal_cents, o.tax_cents, o.discount_cents, o.total_cents,
+       l.product_id, l.product_name, l.unit_price_cents, l.quantity, l.taxable
+FROM pending_orders o
+JOIN order_lines l ON l.order_id = o.id
+ORDER BY o.created_at DESC;
+
+selectPendingOrdersWithLines:
+SELECT o.id, o.created_at, o.synced_at, o.subtotal_cents, o.tax_cents, o.discount_cents, o.total_cents,
+       l.product_id, l.product_name, l.unit_price_cents, l.quantity, l.taxable
+FROM pending_orders o
+JOIN order_lines l ON l.order_id = o.id
+WHERE o.synced_at IS NULL
+ORDER BY o.created_at ASC;
+
+markSynced:
+UPDATE pending_orders SET synced_at = ? WHERE id = ?;
+
+countOrders:
+SELECT COUNT(*) FROM pending_orders;

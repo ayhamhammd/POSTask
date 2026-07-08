@@ -1,0 +1,10 @@
+TEAM_ID=
+
+PRODUCT_NAME=POSTask
+PRODUCT_BUNDLE_IDENTIFIER=com.ayham.postask.POSTask$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
+
+// SQLDelight native driver needs the system SQLite library at link time
+OTHER_LDFLAGS=$(inherited) -lsqlite3
