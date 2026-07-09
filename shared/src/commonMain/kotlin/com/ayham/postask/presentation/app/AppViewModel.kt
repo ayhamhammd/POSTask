@@ -2,7 +2,6 @@ package com.ayham.postask.presentation.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ayham.postask.core.log.PosLogger
 import com.ayham.postask.domain.model.SyncFeedback
 import com.ayham.postask.domain.usecase.ObserveCartUseCase
 import com.ayham.postask.domain.usecase.ObserveConnectivityUseCase
@@ -38,7 +37,6 @@ class AppViewModel(
         observeConnectivity()
             .filter { it }
             .onEach {
-                PosLogger.log("sync triggered: connectivity is online")
                 syncPendingOrders().collect()
             }
             .launchIn(viewModelScope)

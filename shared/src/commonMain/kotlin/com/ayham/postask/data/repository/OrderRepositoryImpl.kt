@@ -2,7 +2,6 @@ package com.ayham.postask.data.repository
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.ayham.postask.core.log.PosLogger
 import com.ayham.postask.data.local.PosDatabase
 import com.ayham.postask.data.local.mapper.OrderRow
 import com.ayham.postask.data.local.mapper.mapOrderRow
@@ -78,19 +77,16 @@ class OrderRepositoryImpl(
         emit(ResultWrapper.Loading)
         val pending = queries.selectPendingOrdersWithLines(::mapOrderRow).executeAsList().toOrderModels()
         if (pending.isEmpty()) {
-            PosLogger.log("sync skipped: no pending orders")
             emit(ResultWrapper.Success(SyncSummaryModel(syncedCount = 0, failedCount = 0)))
             return@flow
         }
 
-        PosLogger.log("sync started: ${pending.size} pending order(s)")
         delay(SYNC_LATENCY_MS)
         var synced = 0
         var failed = 0
         for (order in pending) {
             if (syncWithRetry(order)) synced++ else failed++
         }
-        PosLogger.log("sync finished: $synced synced, $failed failed")
         if (synced > 0) _syncFeedback.tryEmit(SyncFeedback.Synced(synced))
         emit(ResultWrapper.Success(SyncSummaryModel(syncedCount = synced, failedCount = failed)))
     }.catch { emit(ResultWrapper.Error(it)) }.flowOn(Dispatchers.IO)
@@ -101,12 +97,10 @@ class OrderRepositoryImpl(
             when (val result = ordersApi.syncOrder(order.toSyncRequest())) {
                 is NetworkResult.Success -> {
                     queries.markSynced(Clock.System.now().toEpochMilliseconds(), order.id)
-                    PosLogger.log("order ${order.id} synced on attempt $attempt")
                     return true
                 }
 
                 is NetworkResult.Error -> {
-                    PosLogger.log("order ${order.id} sync attempt $attempt failed: ${result.error.message}")
                     if (attempt < MAX_SYNC_ATTEMPTS) {
                         _syncFeedback.tryEmit(SyncFeedback.Retrying)
                         delay(RETRY_DELAY_MS)
