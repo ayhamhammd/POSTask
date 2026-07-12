@@ -13,7 +13,7 @@ import com.ayham.postask.domain.model.CartTotalsModel
 import com.ayham.postask.presentation.components.app_text.AppText
 import com.ayham.postask.presentation.components.app_text.AppTextStyle
 import com.ayham.postask.presentation.components.app_text.TextStyleConfig
-import com.ayham.postask.presentation.format.toMoneyLabel
+import com.ayham.postask.util.format.toMoneyLabel
 import com.ayham.postask.presentation.theme.AppTheme
 import com.ayham.postask.presentation.theme.Dimens
 import org.jetbrains.compose.resources.stringResource

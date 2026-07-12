@@ -1,4 +1,4 @@
-package com.ayham.postask.presentation.format
+package com.ayham.postask.util.format
 
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

@@ -1,6 +1,7 @@
-package com.ayham.postask.util
+package com.ayham.postask.network.api
 
 import com.ayham.postask.network.model.NetworkResult
+import com.ayham.postask.util.ResultWrapper
 
 suspend inline fun <DATA, DOMAIN> tryRequest(
     request: suspend () -> NetworkResult<DATA>,

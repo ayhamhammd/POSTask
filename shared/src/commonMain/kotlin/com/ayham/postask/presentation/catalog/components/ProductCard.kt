@@ -18,7 +18,7 @@ import com.ayham.postask.presentation.components.app_button.AppButton
 import com.ayham.postask.presentation.components.app_button.AppButtonSize
 import com.ayham.postask.presentation.components.app_text.AppText
 import com.ayham.postask.presentation.components.app_text.AppTextStyle
-import com.ayham.postask.presentation.format.toMoneyLabel
+import com.ayham.postask.util.format.toMoneyLabel
 import com.ayham.postask.presentation.theme.AppTheme
 import com.ayham.postask.presentation.theme.Dimens
 import com.ayham.postask.presentation.theme.PosIcons

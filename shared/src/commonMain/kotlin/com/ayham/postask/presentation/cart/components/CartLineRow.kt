@@ -20,7 +20,7 @@ import com.ayham.postask.presentation.components.QuantityStepper
 import com.ayham.postask.presentation.components.app_icon.AppIcon
 import com.ayham.postask.presentation.components.app_text.AppText
 import com.ayham.postask.presentation.components.app_text.AppTextStyle
-import com.ayham.postask.presentation.format.toMoneyLabel
+import com.ayham.postask.util.format.toMoneyLabel
 import com.ayham.postask.presentation.theme.AppTheme
 import com.ayham.postask.presentation.theme.Dimens
 import com.ayham.postask.presentation.theme.PosIcons

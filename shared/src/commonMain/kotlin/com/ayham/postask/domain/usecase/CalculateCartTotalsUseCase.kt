@@ -24,6 +24,7 @@ class CalculateCartTotalsUseCase {
 
     private fun applyRate(amountCents: Long, ratePercent: Long): Long =
         (amountCents * ratePercent + HALF_UP_OFFSET) / PERCENT_BASE
+        // 25.94$ gose 2594*10 = 25940+50-> 25990/100 = 259.9 -> 2.59
 
     private companion object {
         const val TAX_RATE_PERCENT = 10L

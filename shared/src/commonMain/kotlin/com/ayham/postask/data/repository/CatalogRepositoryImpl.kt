@@ -5,7 +5,7 @@ import com.ayham.postask.data.remote.mapper.toDomain
 import com.ayham.postask.domain.model.ProductModel
 import com.ayham.postask.domain.repository.CatalogRepository
 import com.ayham.postask.util.ResultWrapper
-import com.ayham.postask.util.tryRequest
+import com.ayham.postask.network.api.tryRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
